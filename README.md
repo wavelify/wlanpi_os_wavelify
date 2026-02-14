@@ -21,7 +21,7 @@ This golden image transforms your WLANPi R4 into an enterprise-grade WiFi survey
 
 ### **Mobile Connectivity**
 - ✅ **Bluetooth SPP** - Wireless connection for Android devices
-- ✅ **USB-C Ethernet** - Wired connection (169.254.42.1)
+- ✅ **USB-C Ethernet Tethering** - Wired connection via Android tethering
 - ✅ Permanent Bluetooth discoverability
 - ✅ Auto-pairing support
 - ✅ JSON-over-RFCOMM protocol
@@ -208,30 +208,63 @@ sudo eject /dev/sdX
 - Multi-radio scanning is active
 - Real-time data from all WiFi adapters
 
-#### **Ethernet Connection (Wired)**
+#### **Ethernet Connection (Wired via USB-C)**
 
-**For initial setup or debugging:**
+**For high-speed data transfer or when Bluetooth is unavailable:**
 
-1. **Connect via USB-C Ethernet Adapter**
-   - Use a USB-C to Ethernet adapter
-   - Connect between your phone/laptop and WLANPi
+**Step 1: Enable Ethernet Tethering on Android**
+- On your Android device, go to **Settings** → **Network & Internet** → **Hotspot & Tethering**
+- Enable **Ethernet Tethering** (or **USB Tethering**)
+- Connect USB-C cable between Android device and WLANPi
 
-2. **Configure Network**
-   - The WLANPi uses static IP: **169.254.42.1**
-   - Your device should auto-configure via DHCP
+**Step 2: Find the WLANPi IP Address**
 
-3. **Access the API**
-   ```bash
-   # Test connection
-   curl http://169.254.42.1:8080/api/v1/scan
+The WLANPi will receive an IP from your Android device (typically in the `192.168.42.x` or `192.168.43.x` range).
 
-   # Expected response: JSON with WiFi scan data
-   ```
+**Option A: SSH into WLANPi (if you know the hostname)**
+```bash
+# From your computer on the same network
+ssh wlanpi@wlanpi.local
 
-4. **API Endpoints**
-   - Scan: `http://169.254.42.1:8080/api/v1/scan`
-   - Device Info: `http://169.254.42.1:8080/api/v1/device/info`
-   - Status: `http://169.254.42.1:8080/api/v1/device/status`
+# Once connected, check IP address
+ip addr show usb0
+# or
+ifconfig usb0
+```
+
+**Option B: Check Android DHCP leases**
+- Some Android devices show connected devices in Settings
+- Look for "WLANPi" or "wlanpi" in the connected devices list
+
+**Option C: Scan the network**
+```bash
+# From your computer on the same network
+nmap -sn 192.168.42.0/24
+# or
+nmap -sn 192.168.43.0/24
+```
+
+**Step 3: Connect in Wavelify Android App**
+- Open the Wavelify app
+- Go to connection settings
+- Enter the WLANPi IP address (e.g., `192.168.42.129`)
+- Enter port: `8080`
+- Tap **Connect**
+
+**Step 4: Verify Connection**
+
+You can test the connection manually:
+```bash
+# Replace with your WLANPi's actual IP
+curl http://192.168.42.129:8080/api/v1/scan
+
+# Expected response: JSON with WiFi scan data
+```
+
+**API Endpoints:**
+- Scan: `http://<WLANPI_IP>:8080/api/v1/scan`
+- Device Info: `http://<WLANPI_IP>:8080/api/v1/device/info`
+- Status: `http://<WLANPI_IP>:8080/api/v1/device/status`
 
 ---
 
@@ -320,10 +353,10 @@ AutoEnable = true
 
 ### **Networking**
 
-**Ethernet (eth0):**
-- Static IP: 169.254.42.1/24
-- No gateway (isolated network)
-- No DNS (phone keeps WiFi internet)
+**Ethernet (usb0/eth0):**
+- IP assigned via DHCP from Android tethering (typically `192.168.42.x` or `192.168.43.x`)
+- Depends on Android device tethering configuration
+- Use `ip addr` or `ifconfig` to find assigned IP
 
 **WiFi Interfaces:**
 - Managed by `wlanpi-api` service
@@ -395,13 +428,19 @@ sudo journalctl -u wlanpi-api -f
 ### **Can't Connect via Ethernet**
 
 ```bash
-# Check if eth0 is configured
+# Check if ethernet interface is configured
+ip addr show usb0
+# or
 ip addr show eth0
 
-# Should show: 169.254.42.1/24
+# Find your assigned IP (look for inet line)
+# Example: inet 192.168.42.129/24
 
 # Test API directly on WLANPi
 curl http://localhost:8080/api/v1/scan
+
+# Test from Android (replace with actual IP)
+curl http://192.168.42.129:8080/api/v1/scan
 ```
 
 ### **Reset to Factory Settings**
@@ -540,8 +579,9 @@ sudo dd if=wlanpi-wavelify.img of=/dev/rdiskN bs=4m
 4. Open Wavelify app
 
 # Connect (Ethernet)
-IP: 169.254.42.1
-API: http://169.254.42.1:8080/api/v1/scan
+1. Enable Ethernet tethering on Android
+2. Find WLANPi IP: ip addr show usb0
+3. Connect: http://<IP>:8080/api/v1/scan
 
 # Service management
 sudo systemctl status wlanpi-api
