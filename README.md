@@ -72,14 +72,14 @@ All services start automatically on boot:
 
 ### **Download the Image**
 
-**⬇️ [Download WLANPi + Wavelify Golden Image v2.0 (1.3 GB)](https://github.com/wavelify/wlanpi_os_wavelify/releases/latest/download/wlanpi-r4-wavelify.img.gz)**
+**⬇️ [Download WLANPi + Wavelify Golden Image v2.0 (1.3 GB)](https://github.com/wavelify/wlanpi_os_wavelify/releases/download/v2.0/wlanpi-r4-wavelify.img.gz)**
 
 > **⚠️ Disclaimer:** Wavelify is not responsible for any damage to the device. Flash at your own risk.
 
 **Option 1: Direct Download (Recommended)**
 ```bash
 # Download the compressed golden image (1.3 GB)
-wget https://github.com/wavelify/wlanpi_os_wavelify/releases/latest/download/wlanpi-r4-wavelify.img.gz
+wget https://github.com/wavelify/wlanpi_os_wavelify/releases/download/v2.0/wlanpi-r4-wavelify.img.gz
 
 # Verify checksum (optional but recommended)
 sha256sum wlanpi-r4-wavelify.img.gz
@@ -88,7 +88,7 @@ sha256sum wlanpi-r4-wavelify.img.gz
 **Option 2: Using curl**
 ```bash
 curl -L -o wlanpi-r4-wavelify.img.gz \
-  https://github.com/wavelify/wlanpi_os_wavelify/releases/latest/download/wlanpi-r4-wavelify.img.gz
+  https://github.com/wavelify/wlanpi_os_wavelify/releases/download/v2.0/wlanpi-r4-wavelify.img.gz
 ```
 
 **Option 3: Clone Repository (Documentation only)**
