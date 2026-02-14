@@ -52,7 +52,7 @@ All services start automatically on boot:
 
 ### **Hardware**
 - **Device:** WLANPi R4 (Raspberry Pi CM4-based)
-- **SD Card:** 16GB minimum (32GB recommended)
+- **SD Card:** 32GB minimum (64GB recommended)
 - **WiFi Adapters:** Any supported USB WiFi adapters (multi-radio capability)
 - **Power:** USB-C power supply (5V/3A recommended)
 
@@ -72,21 +72,23 @@ All services start automatically on boot:
 
 ### **Download the Image**
 
-**⬇️ [Download WLANPi + Wavelify Golden Image (799 MB)](https://github.com/wavelify/wlanpi_os_wavelify/releases/latest/download/wlanpi-wavelify.img.xz)**
+**⬇️ [Download WLANPi + Wavelify Golden Image v2.0 (1.3 GB)](https://github.com/wavelify/wlanpi_os_wavelify/releases/latest/download/wlanpi-r4-wavelify.img.gz)**
+
+> **⚠️ Disclaimer:** Wavelify is not responsible for any damage to the device. Flash at your own risk.
 
 **Option 1: Direct Download (Recommended)**
 ```bash
-# Download the compressed golden image (799 MB)
-wget https://github.com/wavelify/wlanpi_os_wavelify/releases/latest/download/wlanpi-wavelify.img.xz
+# Download the compressed golden image (1.3 GB)
+wget https://github.com/wavelify/wlanpi_os_wavelify/releases/latest/download/wlanpi-r4-wavelify.img.gz
 
 # Verify checksum (optional but recommended)
-sha256sum wlanpi-wavelify.img.xz
+sha256sum wlanpi-r4-wavelify.img.gz
 ```
 
 **Option 2: Using curl**
 ```bash
-curl -L -o wlanpi-wavelify.img.xz \
-  https://github.com/wavelify/wlanpi_os_wavelify/releases/latest/download/wlanpi-wavelify.img.xz
+curl -L -o wlanpi-r4-wavelify.img.gz \
+  https://github.com/wavelify/wlanpi_os_wavelify/releases/latest/download/wlanpi-r4-wavelify.img.gz
 ```
 
 **Option 3: Clone Repository (Documentation only)**
@@ -106,13 +108,13 @@ cd wlanpi_os_wavelify
 
 2. **Decompress the Image** (if needed)
    ```bash
-   xz -d wlanpi-wavelify.img.xz
+   gunzip wlanpi-r4-wavelify.img.gz
    ```
 
 3. **Flash with Etcher**
    - Insert SD card into your computer
    - Launch Balena Etcher
-   - Select `wlanpi-wavelify.img`
+   - Select `wlanpi-r4-wavelify.img`
    - Select your SD card drive
    - Click **Flash!**
    - Wait for completion and verification
@@ -122,7 +124,7 @@ cd wlanpi_os_wavelify
 **macOS:**
 ```bash
 # 1. Decompress the image
-xz -d wlanpi-wavelify.img.xz
+gunzip wlanpi-r4-wavelify.img.gz
 
 # 2. Find your SD card
 diskutil list
@@ -133,7 +135,7 @@ diskutil unmountDisk /dev/diskN
 # Replace N with your disk number
 
 # 4. Flash the image
-sudo dd if=wlanpi-wavelify.img of=/dev/rdiskN bs=4m status=progress
+sudo dd if=wlanpi-r4-wavelify.img of=/dev/rdiskN bs=4m status=progress
 # Using rdiskN (with 'r') is faster than diskN
 
 # 5. Eject safely
@@ -143,7 +145,7 @@ diskutil eject /dev/diskN
 **Linux:**
 ```bash
 # 1. Decompress the image
-xz -d wlanpi-wavelify.img.xz
+gunzip wlanpi-r4-wavelify.img.gz
 
 # 2. Find your SD card
 lsblk
@@ -154,7 +156,7 @@ sudo umount /dev/sdX*
 # Replace X with your device letter
 
 # 4. Flash the image
-sudo dd if=wlanpi-wavelify.img of=/dev/sdX bs=4M status=progress conv=fsync
+sudo dd if=wlanpi-r4-wavelify.img of=/dev/sdX bs=4M status=progress conv=fsync
 
 # 5. Sync and eject
 sync
@@ -164,7 +166,7 @@ sudo eject /dev/sdX
 #### **Method 3: Windows (Win32 Disk Imager)**
 
 1. Download and install [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/)
-2. Decompress `wlanpi-wavelify.img.xz` using [7-Zip](https://www.7-zip.org/)
+2. Decompress `wlanpi-r4-wavelify.img.gz` using [7-Zip](https://www.7-zip.org/)
 3. Run Win32 Disk Imager as Administrator
 4. Select the `.img` file and your SD card drive
 5. Click **Write**
@@ -491,8 +493,8 @@ curl http://192.168.42.129:8080/api/v1/scan
 | **Kernel** | Linux 6.1+ |
 | **Python** | 3.9+ |
 | **Image Size (Uncompressed)** | ~29.7 GB |
-| **Image Size (Compressed)** | ~799 MB (.xz) |
-| **Minimum SD Card** | 16 GB |
+| **Image Size (Compressed)** | ~1.3 GB (.gz) |
+| **Minimum SD Card** | 32 GB |
 | **Recommended SD Card** | 32 GB |
 | **Architecture** | ARM64 (aarch64) |
 
@@ -518,7 +520,15 @@ curl http://192.168.42.129:8080/api/v1/scan
 
 ## 📝 Version History
 
-### **v1.0** (Current)
+### **v2.0** (Current - February 2026)
+- Updated golden image with latest improvements
+- Enhanced multi-radio WiFi scanning
+- Improved Bluetooth SPP stability
+- Auto-configured services
+- Wavelify mobile app integration
+- Optimized performance and reliability
+
+### **v1.0** (January 2026)
 - Initial golden image release
 - Multi-radio WiFi scanning
 - Bluetooth SPP support
@@ -564,8 +574,8 @@ This golden image is provided for use with Wavelify services.
 
 ```bash
 # Flash SD card
-xz -d wlanpi-wavelify.img.xz
-sudo dd if=wlanpi-wavelify.img of=/dev/rdiskN bs=4m
+gunzip wlanpi-r4-wavelify.img.gz
+sudo dd if=wlanpi-r4-wavelify.img of=/dev/rdiskN bs=4m
 
 # First boot
 1. Insert SD card
