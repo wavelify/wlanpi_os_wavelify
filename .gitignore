@@ -1,0 +1,16 @@
+# Ignore large image files (use GitHub Releases instead)
+*.img
+*.img.xz
+*.iso
+*.zip
+*.tar.gz
+*.tar.xz
+
+# macOS
+.DS_Store
+._*
+
+# Editor files
+*.swp
+*.swo
+*~
